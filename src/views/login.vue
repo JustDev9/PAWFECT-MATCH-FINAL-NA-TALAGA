@@ -98,7 +98,7 @@ export default {
       this.errorMessage = '';
 
       try {
-        const response = await axios.post('http://localhost/Pawfect-master/backend/login.php', {
+        const response = await axios.post('http://localhost/Pawfect-final--main/backend/login.php', {
           email: this.loginEmail,
           password: this.loginPassword
         });

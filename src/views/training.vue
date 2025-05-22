@@ -3,8 +3,7 @@
     <nav class="nav-container" :class="{ 'nav-scrolled': hasScrolled }">
       <div class="logo-container">
         <div class="logo-image">
-          <!-- <img src="/Designer.png" alt="Pawfect" width="40" height="40"> -->
-          <a href="#" style="display:inline-block;width:40px;height:40px;background:#eee;border-radius:8px;text-align:center;line-height:40px;font-weight:bold;color:#aaa;text-decoration:none;">?</a>
+          <img src="/Designer.png" alt="Pawfect" width="40" height="40"> 
         </div>
         <span class="logo-text">PAWFECT</span>
       </div>
@@ -12,36 +11,56 @@
       <div class="nav-links-container">
         <transition name="fade">
           <div v-if="mobileMenuOpen || !isMobile" class="nav-links" :class="{ 'mobile-active': mobileMenuOpen }">
-            <a href="home" class="nav-link" @click="closeMenuIfMobile">Home</a>
-            <a href="pet-profiles" class="nav-link" @click="closeMenuIfMobile">Pet Profiles</a>
+            <a href="/home" class="nav-link" @click="closeMenuIfMobile">Home</a>
+            <a href="/pet-profiles" class="nav-link" @click="closeMenuIfMobile">Pet Profiles</a>
             <div class="dropdown">
-              <a href="#" class="nav-link dropdown-toggle" @click="toggleDropdown">
-                Resources <span class="dropdown-arrow" :class="{ 'arrow-rotated': dropdownOpen }">▼</span>
+              <a href="#" class="nav-link dropdown-toggle" @click="toggleDesktopDropdown">
+                Resources <span class="dropdown-arrow" :class="{ 'arrow-rotated': (isMobile ? dropdownOpen : desktopDropdownOpen) }">▼</span>
               </a>
               <transition name="slide-fade">
                 <div v-if="isMobile && dropdownOpen" class="dropdown-content mobile">
-                  <a href="training" @click="closeMenuIfMobile">Training Tips</a>
-                  <a href="#" @click="closeMenuIfMobile">Health Guides</a>
+                  <a href="/training" class="active" @click="closeMenuIfMobile">Training Tips</a>
+                  <a href="/stories" @click="closeMenuIfMobile">Success Stories</a>
                 </div>
               </transition>
-              <div v-if="!isMobile" class="dropdown-content desktop">
-                <a href="training ">Training Tips</a>
-                <a href="#">Health Guides</a>
-                <a href="#">Pet Care</a>
-              </div>
+              <transition name="resources-dropdown">
+                <div v-if="!isMobile && desktopDropdownOpen" class="dropdown-content desktop">
+                  <a href="/training" class="active">Training Tips</a>
+                  <a href="/stories">Success Stories</a>
+                </div>
+              </transition>
             </div>
-            <a href="donations" class="nav-link" @click="closeMenuIfMobile">Donation</a>
-            <a href="#" class="nav-link" @click="closeMenuIfMobile">Contact</a>
+            <a href="/donations" class="nav-link" @click="closeMenuIfMobile">Donation</a>
+            <a href="/about" class="nav-link" @click="closeMenuIfMobile">About</a>
           </div>
         </transition>
       </div>
 
       <div class="right-section">
-        <div class="user-icon" role="button" aria-label="User profile" tabindex="0">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+        <div class="user-dropdown">
+          <div class="user-icon" role="button" aria-label="User profile" tabindex="0" @click="toggleUserDropdown">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+
+          <transition name="dropdown-animation">
+            <div v-if="userDropdownOpen" class="user-dropdown-content" :class="{ 'mobile-dropdown': isMobile }">
+              <div class="dropdown-header">
+                <span>User Menu</span>
+                <button class="close-dropdown-btn" @click="closeUserDropdown" aria-label="Close menu">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <a href="/profile" @click.stop>Profile</a>
+              <a href="/status" @click.stop>Status</a>
+              <a href="/logout" @click.stop>Log Out</a>
+            </div>
+          </transition>
         </div>
 
         <button class="mobile-menu-toggle" aria-label="Toggle menu" @click="toggleMobileMenu">
@@ -288,6 +307,8 @@ export default {
     return {
       mobileMenuOpen: false,
       dropdownOpen: false,
+      desktopDropdownOpen: false,
+      userDropdownOpen: false,
       isMobile: false,
       hasScrolled: false,
       activeTab: 'cats'
@@ -297,10 +318,12 @@ export default {
     this.checkScreenSize();
     window.addEventListener('resize', this.checkScreenSize);
     window.addEventListener('scroll', this.handleScroll);
+    document.addEventListener('click', this.closeResourceDropdownOnClickOutside);
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.checkScreenSize);
     window.removeEventListener('scroll', this.handleScroll);
+    document.removeEventListener('click', this.closeResourceDropdownOnClickOutside);
   },
   methods: {
     toggleMobileMenu() {
@@ -308,31 +331,67 @@ export default {
       if (!this.mobileMenuOpen) {
         this.dropdownOpen = false;
       }
-      document.body.style.overflow = this.mobileMenuOpen ? 'hidden' : '';
-    },
-    toggleDropdown(event) {
-      if (this.isMobile) {
-        event.preventDefault();
-        this.dropdownOpen = !this.dropdownOpen;
+      if (this.mobileMenuOpen) {
+        document.body.classList.add('no-scroll');
+      } else {
+        document.body.classList.remove('no-scroll');
       }
+    },
+    toggleDesktopDropdown(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (this.isMobile) {
+        this.dropdownOpen = !this.dropdownOpen;
+        this.desktopDropdownOpen = false;
+      } else {
+        this.desktopDropdownOpen = !this.desktopDropdownOpen;
+      }
+    },
+    toggleUserDropdown(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (!this.userDropdownOpen) {
+        this.userDropdownOpen = true;
+      }
+      this.desktopDropdownOpen = false;
+      if (this.isMobile) {
+        this.dropdownOpen = false;
+      }
+    },
+    closeUserDropdown() {
+      this.userDropdownOpen = false;
     },
     closeMenuIfMobile() {
       if (this.isMobile) {
         this.mobileMenuOpen = false;
         this.dropdownOpen = false;
-        document.body.style.overflow = '';
+        document.body.classList.remove('no-scroll');
       }
     },
     checkScreenSize() {
+      const previouslyMobile = this.isMobile;
       this.isMobile = window.innerWidth <= 768;
-      if (!this.isMobile) {
-        this.mobileMenuOpen = false;
-        this.dropdownOpen = false;
-        document.body.style.overflow = '';
+
+      if (previouslyMobile !== this.isMobile) {
+        if (!this.isMobile) {
+          this.mobileMenuOpen = false;
+          this.dropdownOpen = false;
+          document.body.classList.remove('no-scroll');
+        } else {
+          this.desktopDropdownOpen = false;
+        }
       }
     },
     handleScroll() {
       this.hasScrolled = window.scrollY > 20;
+    },
+    closeResourceDropdownOnClickOutside(event) {
+      const resourcesDropdownToggle = this.$el.querySelector('.nav-link.dropdown-toggle');
+      const resourcesDropdownContent = this.$el.querySelector('.dropdown-content.desktop');
+
+      if (this.desktopDropdownOpen && resourcesDropdownToggle && !resourcesDropdownToggle.contains(event.target) && resourcesDropdownContent && !resourcesDropdownContent.contains(event.target)) {
+        this.desktopDropdownOpen = false;
+      }
     }
   }
 }
@@ -536,6 +595,10 @@ export default {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+}
+
+.user-dropdown {
+  position: relative;
 }
 
 .user-icon {

@@ -3,46 +3,66 @@
     <nav class="nav-container" :class="{ 'nav-scrolled': hasScrolled }">
       <div class="logo-container">
         <div class="logo-image">
-          <!-- <img src="/Designer.png" alt="Pawfect" width="40" height="40"> -->
+          <img src="/Designer.png" alt="Pawfect" width="40" height="40">
         </div>
         <span class="logo-text">PAWFECT</span>
       </div>
-
+      
       <div class="nav-links-container">
         <transition name="fade">
           <div v-if="mobileMenuOpen || !isMobile" class="nav-links" :class="{ 'mobile-active': mobileMenuOpen }">
-            <a href="home" class="nav-link" @click="closeMenuIfMobile">Home</a>
-            <a href="pet-profiles" class="nav-link" @click="closeMenuIfMobile">Pet Profiles</a>
+            <a href="/home" class="nav-link" @click="closeMenuIfMobile">Home</a>
+            <a href="/pet-profiles" class="nav-link" @click="closeMenuIfMobile">Pet Profiles</a>
             <div class="dropdown">
-              <a href="#" class="nav-link dropdown-toggle" @click="toggleDropdown">
+              <a href="#" class="nav-link dropdown-toggle" @click="toggleDesktopDropdown">
                 Resources <span class="dropdown-arrow" :class="{ 'arrow-rotated': dropdownOpen }">▼</span>
               </a>
               <transition name="slide-fade">
                 <div v-if="isMobile && dropdownOpen" class="dropdown-content mobile">
-                  <a href="training" @click="closeMenuIfMobile">Training Tips</a>
-                  <a href="#" @click="closeMenuIfMobile">Health Guides</a>
-                  <a href="#" @click="closeMenuIfMobile">Pet Care</a>
+                  <a href="/training" @click="closeMenuIfMobile">Training Tips</a>
+                  <a href="/stories" @click="closeMenuIfMobile">Success Stories</a>
                 </div>
               </transition>
-              <div v-if="!isMobile" class="dropdown-content desktop">
-                <a href="training">Training Tips</a>
-                <a href="#">Health Guides</a>
-                <a href="#">Pet Care</a>
-              </div>
+              <transition name="resources-dropdown">
+                <div v-if="!isMobile && desktopDropdownOpen" class="dropdown-content desktop">
+                  <a href="/training">Training Tips</a>
+                  <a href="/stories">Success Stories</a>
+                </div>
+              </transition>
             </div>
-            <a href="donations" class="nav-link" @click="closeMenuIfMobile">Donation</a>
+            <a href="/donations" class="nav-link" @click="closeMenuIfMobile">Donation</a>
+            <a href="/about" class="nav-link" @click="closeMenuIfMobile">About</a>
           </div>
         </transition>
       </div>
-
+      
       <div class="right-section">
-        <div class="user-icon" role="button" aria-label="User profile" tabindex="0">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
+        <div class="user-dropdown">
+          <div class="user-icon" role="button" aria-label="User profile" tabindex="0" @click="toggleUserDropdown">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          
+          <transition name="dropdown-animation">
+            <div v-if="userDropdownOpen" class="user-dropdown-content" :class="{ 'mobile-dropdown': isMobile }">
+              <div class="dropdown-header">
+                <span>User Menu</span>
+                <button class="close-dropdown-btn" @click="closeUserDropdown" aria-label="Close menu">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <a href="/profile" @click.stop>Profile</a>
+              <a href="/status" @click.stop>Status</a>
+              <a href="/logout" @click.stop>Log Out</a>
+            </div>
+          </transition>
         </div>
-
+        
         <button class="mobile-menu-toggle" aria-label="Toggle menu" @click="toggleMobileMenu">
           <div class="bar" :class="{ 'bar-1-active': mobileMenuOpen }"></div>
           <div class="bar" :class="{ 'bar-2-active': mobileMenuOpen }"></div>
@@ -54,18 +74,18 @@
     <div class="pet-profile-container">
       <div class="pet-card">
         <div class="pet-image-container">
-          <!-- <img src="/public/ridley.png" alt="Ian" class="pet-image"> -->
+          <img src="" alt="Babi" class="pet-image" />
         </div>
         <div class="pet-info">
-          <h2 class="pet-name">Hi! I'm Ian</h2>
+          <h2 class="pet-name">Hi! I'm Babi</h2>
           <div class="pet-details">
             <div class="detail-item">
               <span class="detail-label">Age:</span>
-              <span class="detail-value">20</span>
+              <span class="detail-value">2</span>
             </div>
             <div class="detail-item">
               <span class="detail-label">Breed:</span>
-              <span class="detail-value">American White Hair</span>
+              <span class="detail-value">Persian</span>
             </div>
             <div class="detail-item">
               <span class="detail-label">Sex:</span>
@@ -73,9 +93,9 @@
             </div>
           </div>
           <p class="pet-description">
-            Ian was found on a corner street in Olongapo and is trying to find his loved ones.
+            Babi was found on a corner street in Olongapo and is trying to find his loved ones.
             He has a gullible and joyful personality and likes to play with other people.
-            He enjoys petting and playtime. He also likes coding.
+            He enjoys petting and playtime.
           </p>
           <button class="adoption-button" @click="openApplicationForm">Apply for Adoption</button>
         </div>
@@ -107,6 +127,7 @@
       </div>
     </div>
 
+    <div>
     <div class="application-form-section">
       <div class="form-container" :class="{ 'show-form': showApplicationForm }">
         <div class="form-overlay" @click="closeApplicationForm"></div>
@@ -119,12 +140,12 @@
           </p>
 
           <form @submit.prevent="currentApplicationStep === 1 ? proceedToUploadsAndFinalize() : submitFullApplication()" class="adoption-form">
-
+            
             <div v-if="currentApplicationStep === 1">
               <h3>1. Applicant Information</h3>
               <div class="form-group">
                 <label for="fullName">Full Name *</label>
-                <input type="text" id="fullName" v="application.fullName" v-model="application.fullName" required>
+                <input type="text" id="fullName" v-model="application.fullName" required>
               </div>
               <div class="form-group">
                  <label for="ageOver18" class="checkbox-label">
@@ -132,32 +153,54 @@
                     I confirm I am 18 years or older *
                 </label>
               </div>
+
+              <!-- Guardian Information (displays only if user is under 18) -->
+              <div v-if="!application.ageOver18" class="guardian-section">
+                <h3>Guardian Information</h3>
+                <div class="form-group">
+                  <label for="guardianName">Guardian's Full Name *</label>
+                  <input type="text" id="guardianName" v-model="application.guardianName" required>
+                </div>
+                <div class="form-group">
+                  <label for="guardianRelationship">Relationship to Applicant *</label>
+                  <input type="text" id="guardianRelationship" v-model="application.guardianRelationship" required>
+                </div>
+                <div class="input-row">
+                  <div class="form-group">
+                    <label for="guardianPhone">Guardian's Phone Number *</label>
+                    <input type="tel" id="guardianPhone" v-model="application.guardianPhone" @input="validatePhoneInput($event, 'guardianPhone')" pattern="[0-9]*" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="guardianEmail">Guardian's Email Address *</label>
+                    <input type="email" id="guardianEmail" v-model="application.guardianEmail" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" v-model="application.guardianConsent" required>
+                    My guardian is aware of and consents to this pet adoption application *
+                  </label>
+                </div>
+              </div>
+
               <div class="form-group">
                 <label>Address *</label>
                 <input type="text" v-model="application.addressStreet" placeholder="Street Address" required>
                 <div class="input-row">
                     <input type="text" v-model="application.addressCity" placeholder="City" required class="mt-small">
                     <input type="text" v-model="application.addressState" placeholder="Province" required class="mt-small">
-                    <input type="text" v-model="application.addressZIP" placeholder="ZIP Code" required class="mt-small">
+                    <input type="text" v-model="application.addressZIP" placeholder="ZIP Code" required class="mt-small" @input="application.addressZIP = application.addressZIP.replace(/[^0-9]/g, '')">
                 </div>
               </div>
               <div class="input-row">
                 <div class="form-group">
                   <label for="phoneNumber">Phone Number *</label>
-                  <input type="tel" id="phoneNumber" v-model="application.phoneNumber" required>
+                  <input type="tel" id="phoneNumber" v-model="application.phoneNumber" @input="validatePhoneInput($event, 'phoneNumber')" pattern="[0-9]*" required>
                 </div>
                 <div class="form-group">
                   <label for="emailAddress">Email Address *</label>
                   <input type="email" id="emailAddress" v-model="application.emailAddress" required>
                 </div>
-              </div>
-               <div class="form-group">
-                <label for="preferredContactMethod">Preferred Contact Method *</label>
-                <select id="preferredContactMethod" v-model="application.preferredContactMethod" required>
-                    <option value="Email">Email</option>
-                    <option value="Phone">Phone</option>
-                    <option value="Text">Text</option>
-                </select>
               </div>
 
               <h3>2. Household Information</h3>
@@ -173,9 +216,7 @@
                  <div>
                     <label><input type="radio" v-model="application.landlordPermission" value="Yes" required> Yes</label>
                     <label><input type="radio" v-model="application.landlordPermission" value="No"> No</label>
-                </div>
-                <label for="landlordContact" class="mt-small">Landlord Name & Contact (if applicable):</label>
-                <input type="text" id="landlordContact" v-model="application.landlordContact">
+                 </div>
               </div>
               <div class="form-group">
                 <label for="homeType">Type of home: *</label>
@@ -191,130 +232,19 @@
                 <label for="timeAtAddress">How long have you lived at this address? *</label>
                 <input type="text" id="timeAtAddress" v-model="application.timeAtAddress" required>
               </div>
-              <div class="form-group">
-                <label>Is your yard securely fenced? *</label>
-                <div>
-                    <label><input type="radio" v-model="application.yardFenced" value="Yes" required> Yes</label>
-                    <label><input type="radio" v-model="application.yardFenced" value="No"> No</label>
-                    <label><input type="radio" v-model="application.yardFenced" value="N/A"> N/A (e.g., apartment)</label>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="householdMembersInfo">List all members of the household (name, age, relationship): *</label>
-                <textarea id="householdMembersInfo" v-model="application.householdMembersInfo" rows="3" required></textarea>
-              </div>
-               <div class="form-group">
-                <label>Are all household members in agreement about adopting a pet? *</label>
-                 <div>
-                    <label><input type="radio" v-model="application.allHouseholdMembersAgree" :value="true" required> Yes</label>
-                    <label><input type="radio" v-model="application.allHouseholdMembersAgree" :value="false"> No</label>
-                </div>
-              </div>
 
-              <h3>3. Current & Past Pets</h3>
-                <div class="form-group">
-                    <label>Do you currently have pets? *</label>
-                    <div>
-                        <label><input type="radio" v-model="application.hasCurrentPets" :value="true" required> Yes</label>
-                        <label><input type="radio" v-model="application.hasCurrentPets" :value="false"> No</label>
-                    </div>
-                </div>
-                <div v-if="application.hasCurrentPets" class="form-group">
-                    <label for="currentPetsDetails">If yes, please list species, breed, age, gender, spayed/neutered status, and if they are up-to-date on vaccinations:</label>
-                    <textarea id="currentPetsDetails" v-model="application.currentPetsDetails" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Have you owned pets in the past 5 years? *</label>
-                     <div>
-                        <label><input type="radio" v-model="application.ownedPetsLast5Years" :value="true" required> Yes</label>
-                        <label><input type="radio" v-model="application.ownedPetsLast5Years" :value="false"> No</label>
-                    </div>
-                </div>
-                <div v-if="application.ownedPetsLast5Years" class="form-group">
-                    <label for="pastPetsDetails">If yes, what happened to them?</label>
-                    <textarea id="pastPetsDetails" v-model="application.pastPetsDetails" rows="3"></textarea>
-                </div>
-
-              <h3>4. Veterinarian Information (Optional but preferred)</h3>
-              <div class="input-row">
-                <div class="form-group">
-                    <label for="vetName">Veterinarian's Name:</label>
-                    <input type="text" id="vetName" v-model="application.vetName">
-                </div>
-                <div class="form-group">
-                    <label for="vetClinicName">Clinic Name:</label>
-                    <input type="text" id="vetClinicName" v-model="application.vetClinicName">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="vetPhone">Vet Phone Number:</label>
-                <input type="tel" id="vetPhone" v-model="application.vetPhone">
-              </div>
-              <div class="form-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" v-model="application.vetContactPermission">
-                    May we contact your vet for reference?
-                </label>
-              </div>
-
-              <h3>5. Employment & Lifestyle</h3>
+              <h3>3. Employment & Lifestyle</h3>
               <div class="form-group">
                 <label for="occupation">Occupation *</label>
                 <input type="text" id="occupation" v-model="application.occupation" required>
               </div>
-              <div class="form-group">
-                <label for="workSchedule">Work schedule (e.g., 9am-5pm, M-F, hours away from home): *</label>
-                <input type="text" id="workSchedule" v-model="application.workSchedule" required>
-              </div>
-              <div class="form-group">
-                <label for="hoursPetAlone">How many hours per day will the pet typically be alone? *</label>
-                <input type="text" id="hoursPetAlone" v-model="application.hoursPetAlone" required>
-              </div>
+
               <div class="form-group">
                 <label for="petCaregiverWhenNotHome">Who will care for the pet when you're not home or on vacation? *</label>
                 <input type="text" id="petCaregiverWhenNotHome" v-model="application.petCaregiverWhenNotHome" required>
               </div>
 
-              <h3>6. Pet Preferences</h3>
-              <div class="form-group">
-                <label for="petTypePreference">Type of pet you're looking to adopt: *</label>
-                <select id="petTypePreference" v-model="application.petTypePreference" required>
-                    <option value="Dog">Dog</option>
-                    <option value="Cat">Cat</option>
-                    <option value="Other">Other</option>
-                </select>
-              </div>
-               <div class="form-group">
-                <label for="breedPreference">Breed preference (if any):</label>
-                <input type="text" id="breedPreference" v-model="application.breedPreference">
-              </div>
-              <div class="form-group">
-                <label for="agePreference">Age preference: *</label>
-                <select id="agePreference" v-model="application.agePreference" required>
-                    <option value="Puppy/Kitten">Puppy/Kitten</option>
-                    <option value="Adult">Adult</option>
-                    <option value="Senior">Senior</option>
-                    <option value="Any">Any</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="genderPreference">Gender preference: *</label>
-                <select id="genderPreference" v-model="application.genderPreference" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Any">Any</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="activityLevelPreference">Activity level preferred: *</label>
-                <select id="activityLevelPreference" v-model="application.activityLevelPreference" required>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                </select>
-              </div>
-
-              <h3>7. Care & Commitment</h3>
+              <h3>4. Care & Commitment</h3>
                 <div class="form-group">
                     <label for="petSleepLocation">Where will the pet sleep? *</label>
                     <input type="text" id="petSleepLocation" v-model="application.petSleepLocation" required>
@@ -330,42 +260,20 @@
                         <label><input type="radio" v-model="application.preparedForFinancialResponsibility" :value="false"> No</label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="responseToBehaviorIssues">What will you do if the pet develops behavior issues? *</label>
-                    <textarea id="responseToBehaviorIssues" v-model="application.responseToBehaviorIssues" rows="3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Are you willing to take the pet to training classes (if needed)? *</label>
-                    <div>
-                        <label><input type="radio" v-model="application.willingToTrain" :value="true" required> Yes</label>
-                        <label><input type="radio" v-model="application.willingToTrain" :value="false"> No</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="reasonsToReturnPet">What circumstances would cause you to return a pet? *</label>
-                    <textarea id="reasonsToReturnPet" v-model="application.reasonsToReturnPet" rows="3" required></textarea>
-                </div>
 
-
-              <h3>8. Emergency & Long-Term Planning</h3>
+              <h3>5. Emergency & Long-Term Planning</h3>
                 <div class="form-group">
-                    <label for="emergencyPetCaregiver">Who will care for the pet if something happens to you (emergency contact)? *</label>
+                    <label for="emergencyPetCaregiver">Who will care for the pet if something happens to you? *</label>
                     <input type="text" id="emergencyPetCaregiver" v-model="application.emergencyPetCaregiver" required>
                 </div>
-                <div class="form-group">
-                    <label>Have you ever surrendered a pet before? *</label>
-                    <div>
-                        <label><input type="radio" v-model="application.surrenderedPetBefore" :value="true" required> Yes</label>
-                        <label><input type="radio" v-model="application.surrenderedPetBefore" :value="false"> No</label>
-                    </div>
-                </div>
+
                 <div v-if="application.surrenderedPetBefore" class="form-group">
                     <label for="surrenderedPetExplanation">If yes, please explain the circumstances:</label>
                     <textarea id="surrenderedPetExplanation" v-model="application.surrenderedPetExplanation" rows="3"></textarea>
                 </div>
 
-              <h3>9. References (Optional)</h3>
-                <p>Please provide 1-2 personal references (not family members).</p>
+              <h3>6. References (Optional)</h3>
+                <p>Please provide 1-2 personal references.</p>
                 <h4>Reference 1</h4>
                 <div class="input-row">
                     <div class="form-group">
@@ -377,13 +285,19 @@
                         <input type="text" id="reference1Relationship" v-model="application.reference1Relationship">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="reference1Contact">Contact Info (Phone/Email):</label>
-                    <input type="text" id="reference1Contact" v-model="application.reference1Contact">
+                <div class="input-row">
+                    <div class="form-group">
+                        <label for="reference1Phone">Phone Number:</label>
+                        <input type="tel" id="reference1Phone" v-model="application.reference1Phone" @input="validatePhoneInput($event, 'reference1Phone')" pattern="[0-9]*">
+                    </div>
+                    <div class="form-group">
+                        <label for="reference1Email">Email:</label>
+                        <input type="email" id="reference1Email" v-model="application.reference1Email">
+                    </div>
                 </div>
 
                 <h4>Reference 2</h4>
-                 <div class="input-row">
+                <div class="input-row">
                     <div class="form-group">
                         <label for="reference2Name">Name:</label>
                         <input type="text" id="reference2Name" v-model="application.reference2Name">
@@ -393,9 +307,15 @@
                         <input type="text" id="reference2Relationship" v-model="application.reference2Relationship">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="reference2Contact">Contact Info (Phone/Email):</label>
-                    <input type="text" id="reference2Contact" v-model="application.reference2Contact">
+                <div class="input-row">
+                    <div class="form-group">
+                        <label for="reference2Phone">Phone Number:</label>
+                        <input type="tel" id="reference2Phone" v-model="application.reference2Phone" @input="validatePhoneInput($event, 'reference2Phone')" pattern="[0-9]*">
+                    </div>
+                    <div class="form-group">
+                        <label for="reference2Email">Email:</label>
+                        <input type="email" id="reference2Email" v-model="application.reference2Email">
+                    </div>
                 </div>
 
               <div class="form-actions">
@@ -404,17 +324,23 @@
             </div>
 
             <div v-if="currentApplicationStep === 2">
-              <h3>10. Upload Documents (Optional)</h3>
+              <h3>7. Upload Documents</h3>
               <div class="form-group">
-                <label for="homePhoto">Upload a photo of your home or pet area:</label>
-                <input type="file" id="homePhoto" @change="handleFileUpload($event, 'homePhotoFile')" accept="image/*">
+                <label for="homePhoto">Upload a photo of your home or pet area: *</label>
+                <input type="file" id="homePhoto" @change="handleFileUpload($event, 'homePhotoFile')" accept="image/*" required>
               </div>
               <div class="form-group">
-                <label for="idPhoto">Upload a copy of your ID:</label>
-                <input type="file" id="idPhoto" @change="handleFileUpload($event, 'idPhotoFile')" accept="image/*,application/pdf">
+                <label for="idPhoto">Upload a copy of your Valid ID: *</label>
+                <input type="file" id="idPhoto" @change="handleFileUpload($event, 'idPhotoFile')" accept="image/*,application/pdf" required>
               </div>
-
-              <h3>11. Acknowledgements & Consent</h3>
+              
+              <!-- Guardian ID upload (displays only if user is under 18) -->
+              <div v-if="!application.ageOver18" class="form-group">
+                <label for="guardianIdPhoto">Upload a copy of Guardian's Valid ID: *</label>
+                <input type="file" id="guardianIdPhoto" @change="handleFileUpload($event, 'guardianIdPhotoFile')" accept="image/*,application/pdf" required>
+              </div>
+              
+              <h3>8. Acknowledgements & Consent</h3>
               <div class="form-group">
                 <label class="checkbox-label">
                     <input type="checkbox" v-model="application.certifyTrueInfo" required>
@@ -431,6 +357,13 @@
                 <label for="signature">Signature (Type Full Name) *</label>
                 <input type="text" id="signature" v-model="application.signature" required>
               </div>
+              
+              <!-- Guardian signature (displays only if user is under 18) -->
+              <div v-if="!application.ageOver18" class="form-group">
+                <label for="guardianSignature">Guardian's Signature (Type Full Name) *</label>
+                <input type="text" id="guardianSignature" v-model="application.guardianSignature" required>
+              </div>
+              
               <div class="form-group">
                 <label for="applicationDate">Date *</label>
                 <input type="date" id="applicationDate" v-model="application.applicationDate" required readonly>
@@ -445,29 +378,8 @@
         </div>
       </div>
     </div>
-
-    <div class="questionnaire-section" v-if="showQuestionnaire">
-      <h2 class="form-title">Adoption Questionnaire</h2>
-      <div class="question" v-for="(question, index) in questions" :key="index">
-        <p>{{ question.text }}</p>
-        <div class="options">
-          <button
-            v-for="(option, i) in question.options"
-            :key="i"
-            class="option-button"
-            :class="{ 'selected': answers[index] === i }"
-            @click="selectAnswer(index, i)"
-          >
-            {{ option }}
-          </button>
-        </div>
-        <p v-if="answers[index] !== undefined" class="selected-answer">
-          Selected: {{ question.options[answers[index]] }}
-        </p>
-      </div>
-      <button class="submit-btn questionnaire-submit-btn" @click="submitQuestionnaire">Submit Questionnaire</button>
-    </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -475,13 +387,17 @@ export default {
   name: 'PawfectAdoption',
   data() {
     return {
+      // Navigation-related state
       mobileMenuOpen: false,
-      dropdownOpen: false,
+      dropdownOpen: false,         
+      desktopDropdownOpen: false, 
+      userDropdownOpen: false,     
       isMobile: false,
       hasScrolled: false,
+
+      // Application form state
       showApplicationForm: false,
-      currentApplicationStep: 1, // 1: details, 2: uploads & consent
-      showQuestionnaire: false,
+      currentApplicationStep: 1, 
       application: {
         // 1. Applicant Information
         fullName: '',
@@ -492,264 +408,293 @@ export default {
         addressZIP: '',
         phoneNumber: '',
         emailAddress: '',
-        preferredContactMethod: 'Email',
+
+        // Guardian Information (when user is under 18)
+        guardianName: '',
+        guardianRelationship: '',
+        guardianPhone: '',
+        guardianEmail: '',
+        guardianConsent: false,
+        guardianSignature: '',
 
         // 2. Household Information
-        homeOwnership: 'Own',
-        landlordPermission: 'N/A',
-        landlordContact: '',
-        homeType: 'House',
-        homeTypeOther: '',
+        homeOwnership: '', 
+        landlordPermission: '', 
+        homeType: 'House', 
+        homeTypeOther: '', 
         timeAtAddress: '',
-        yardFenced: 'N/A',
-        householdMembersInfo: '',
-        allHouseholdMembersAgree: false,
 
-        // 3. Current & Past Pets
-        hasCurrentPets: false,
-        currentPetsDetails: '',
-        ownedPetsLast5Years: false,
-        pastPetsDetails: '',
-
-        // 4. Veterinarian Information
-        vetName: '',
-        vetClinicName: '',
-        vetPhone: '',
-        vetContactPermission: false,
-
-        // 5. Employment & Lifestyle
+        // 3. Employment & Lifestyle
         occupation: '',
-        workSchedule: '',
-        hoursPetAlone: '',
         petCaregiverWhenNotHome: '',
 
-        // 6. Pet Preferences
-        petTypePreference: 'Dog',
-        breedPreference: '',
-        agePreference: 'Adult',
-        genderPreference: 'Any',
-        activityLevelPreference: 'Medium',
-
-        // 7. Care & Commitment
+        // 4. Care & Commitment
         petSleepLocation: '',
         petFood: '',
-        preparedForFinancialResponsibility: false,
-        responseToBehaviorIssues: '',
-        willingToTrain: false,
-        reasonsToReturnPet: '',
+        preparedForFinancialResponsibility: '',
 
-        // 8. Emergency & Long-Term Planning
+        // 5. Emergency & Long-Term Planning
         emergencyPetCaregiver: '',
-        surrenderedPetBefore: false,
-        surrenderedPetExplanation: '',
 
-        // 9. References
+        // 6. References
         reference1Name: '',
         reference1Relationship: '',
-        reference1Contact: '',
+        reference1Phone: '',
+        reference1Email: '',
         reference2Name: '',
         reference2Relationship: '',
-        reference2Contact: '',
-
-        // 11. Acknowledgements & Consent (Step 2)
+        reference2Phone: '',
+        reference2Email: '',
+        
+        // 7. Acknowledgements & Consent (Step 2)
         certifyTrueInfo: false,
         authorizeVerification: false,
-        signature: '',
+        signature: '', // Could be typed name as digital signature
         applicationDate: new Date().toISOString().slice(0, 10),
       },
       homePhotoFile: null,
       idPhotoFile: null,
-      questions: [
-        {
-          text: "What is your primary motivation for wanting to adopt a pet at this time?",
-          options: [
-            "Companionship",
-            "For my children",
-            "To save a life",
-            "Security / Guarding",
-            "Other"
-          ]
-        },
-        {
-          text: "How do you plan to introduce the new pet to your home and existing pets (if any)?",
-          options: [
-            "Gradual introduction over several days/weeks",
-            "Immediate full access",
-            "Keep them separate initially in different rooms",
-            "Not sure / Haven't thought about it"
-          ]
-        },
-        {
-          text: "Are you prepared for an adjustment period that could last weeks or months?",
-          options: [
-            "Yes, I understand it takes time.",
-            "I expect the pet to adjust quickly.",
-            "I'm not sure what to expect."
-          ]
-        },
-        {
-          text: "If you have to move in the future, what are your plans for your pet?",
-          options: [
-            "The pet comes with me, no matter what.",
-            "I would try to find pet-friendly housing.",
-            "I might have to rehome the pet.",
-            "Depends on the circumstances."
-          ]
-        },
-        {
-           text: "How do you feel about shedding, potential damage to furniture, or house-training accidents?",
-           options: [
-            "Acceptable and manageable parts of pet ownership.",
-            "Concerned, I prefer minimal mess.",
-            "These would be major issues for me."
-           ]
-        },
-        {
-            text: "What kind of training methods do you believe in or plan to use?",
-            options: [
-                "Positive reinforcement (rewards, praise)",
-                "Correction-based methods",
-                "A mix of both",
-                "I will hire a professional trainer",
-                "Unsure"
-            ]
-        }
-      ],
-      answers: []
-    }
+      guardianIdPhotoFile: null,
+    };
   },
   mounted() {
     this.checkScreenSize();
     window.addEventListener('resize', this.checkScreenSize);
     window.addEventListener('scroll', this.handleScroll);
+    document.addEventListener('click', this.closeDropdownsOnClickOutside);
     this.addGlobalStyles();
   },
   beforeUnmount() {
     window.removeEventListener('resize', this.checkScreenSize);
     window.removeEventListener('scroll', this.handleScroll);
+    document.removeEventListener('click', this.closeDropdownsOnClickOutside);
+    // Consider removing global styles if they were uniquely added by this component
+    // and are no longer needed. For simplicity, this is often omitted unless critical.
   },
   methods: {
+    // Global Styles
     addGlobalStyles() {
+      const styleId = 'pawfect-adoption-global-styles';
+      if (document.getElementById(styleId)) return;
+
       const style = document.createElement('style');
+      style.id = styleId;
       style.innerHTML = `
         body {
           margin: 0;
           padding: 0;
-          overflow-x: hidden;
         }
         html {
           box-sizing: border-box;
+          overflow-x: hidden;
         }
         *, *:before, *:after {
           box-sizing: inherit;
         }
+        body.no-scroll { /* Class to prevent scrolling when mobile menu or modal is open */
+          overflow: hidden;
+        }
+        .guardian-section {
+          margin-top: 15px;
+          padding: 15px;
+          background-color: #f9f9f9;
+          border-left: 4px solid #3498db;
+          border-radius: 4px;
+        }
+        .guardian-section h3 {
+          margin-top: 0;
+          color: #2980b9;
+        }
       `;
       document.head.appendChild(style);
     },
+
+    // Navigation Methods
     toggleMobileMenu() {
       this.mobileMenuOpen = !this.mobileMenuOpen;
       if (!this.mobileMenuOpen) {
-        this.dropdownOpen = false;
+        this.dropdownOpen = false; // Close any mobile submenu
       }
-      document.body.style.overflow = this.mobileMenuOpen ? 'hidden' : '';
+      document.body.classList.toggle('no-scroll', this.mobileMenuOpen);
     },
-    toggleDropdown(event) {
+    toggleDropdown(event) { // Generic mobile dropdown toggle
       if (this.isMobile) {
         event.preventDefault();
         this.dropdownOpen = !this.dropdownOpen;
       }
     },
+    toggleDesktopDropdown(event) {
+      event.preventDefault();
+      event.stopPropagation(); // Important to prevent closeDropdownsOnClickOutside from immediately firing
+      if (this.isMobile) {
+        // Fallback to generic mobile dropdown if needed, or a specific mobile action
+        this.dropdownOpen = !this.dropdownOpen; 
+        this.desktopDropdownOpen = false; // Ensure desktop one is closed on mobile
+        this.userDropdownOpen = false;
+      } else {
+        this.desktopDropdownOpen = !this.desktopDropdownOpen;
+        this.userDropdownOpen = false; // Close other dropdowns
+      }
+    },
+    toggleUserDropdown(event) {
+      event.preventDefault();
+      event.stopPropagation(); // Important
+      this.userDropdownOpen = !this.userDropdownOpen;
+      this.desktopDropdownOpen = false; // Close other dropdowns
+    },
+    closeUserDropdown() {
+      this.userDropdownOpen = false;
+    },
     closeMenuIfMobile() {
       if (this.isMobile) {
         this.mobileMenuOpen = false;
         this.dropdownOpen = false;
-        document.body.style.overflow = '';
+        document.body.classList.remove('no-scroll');
       }
     },
     checkScreenSize() {
       this.isMobile = window.innerWidth <= 768;
       if (!this.isMobile) {
+        // Close mobile-specific elements if screen becomes non-mobile
         this.mobileMenuOpen = false;
-        this.dropdownOpen = false;
-        document.body.style.overflow = '';
+        this.dropdownOpen = false; 
+        document.body.classList.remove('no-scroll');
+      } else {
+        // Close desktop-specific dropdowns if screen becomes mobile
+        this.desktopDropdownOpen = false;
+        this.userDropdownOpen = false; 
       }
     },
     handleScroll() {
       this.hasScrolled = window.scrollY > 20;
     },
+    closeDropdownsOnClickOutside(event) {
+      // Close desktop dropdown only
+      // User dropdown will now only close via the X button (closeUserDropdown method)
+      const desktopTrigger = this.$el.querySelector('.desktop-dropdown-trigger');
+      const desktopMenu = this.$el.querySelector('.desktop-menu-content');
+      if (this.desktopDropdownOpen && 
+          !(desktopTrigger && desktopTrigger.contains(event.target)) &&
+          !(desktopMenu && desktopMenu.contains(event.target))) {
+        this.desktopDropdownOpen = false;
+      }
+      
+      // We've removed the code that would close the user dropdown when clicking outside
+    },
+
+    // Phone number validation method
+    validatePhoneInput(event, fieldName) {
+      // Restrict input to numbers only
+      const input = event.target.value;
+      const numbersOnly = input.replace(/\D/g, '');
+      
+      // Update the field with numbers only
+      this.application[fieldName] = numbersOnly;
+    },
+
+    // Application Form Methods
     openApplicationForm() {
-        this.showApplicationForm = true;
-        this.currentApplicationStep = 1;
-        this.application.applicationDate = new Date().toISOString().slice(0,10); // Reset date
+      this.showApplicationForm = true;
+      this.currentApplicationStep = 1;
+      this.application.applicationDate = new Date().toISOString().slice(0,10);
+      document.body.classList.add('no-scroll'); // Prevent body scroll when form is open
     },
     closeApplicationForm() {
-        this.showApplicationForm = false;
-        this.currentApplicationStep = 1;
-
+      this.showApplicationForm = false;
+      this.currentApplicationStep = 1;
+      document.body.classList.remove('no-scroll');
     },
     proceedToUploadsAndFinalize() {
-      // Basic validation example: check if required fields for step 1 are filled
-      // You would typically have more robust validation
-      const step1Form = this.$el.querySelector('.adoption-form');
+      const step1Form = this.$el.querySelector('.adoption-form'); // Ensure this selector targets the form for step 1
       if (step1Form && step1Form.checkValidity()) {
+        // Additional validation for guardian info when user is under 18
+        if (!this.application.ageOver18) {
+          if (!this.application.guardianName || !this.application.guardianRelationship || 
+              !this.application.guardianPhone || !this.application.guardianEmail || 
+              !this.application.guardianConsent) {
+            alert('Please complete all required guardian information fields.');
+            return;
+          }
+        }
+        
         this.currentApplicationStep = 2;
-        // Scroll to top of form content when changing step
-        const formContent = this.$el.querySelector('.form-content');
+        const formContent = this.$el.querySelector('.form-content'); // Scrollable area within the form modal/popup
         if (formContent) formContent.scrollTop = 0;
       } else {
-        // Trigger browser's default validation UI or show custom messages
-        step1Form.reportValidity();
+        if (step1Form) step1Form.reportValidity();
         alert('Please fill out all required fields in Step 1 before proceeding.');
       }
     },
     handleFileUpload(event, fileDataProperty) {
-        const file = event.target.files[0];
-        if (file) {
-            this[fileDataProperty] = file;
-            console.log(`${fileDataProperty} selected:`, file.name);
-        } else {
-            this[fileDataProperty] = null;
-        }
+      const file = event.target.files[0];
+      if (file) {
+        this[fileDataProperty] = file;
+        console.log(`${fileDataProperty} selected:`, file.name);
+      } else {
+        this[fileDataProperty] = null;
+      }
     },
     submitFullApplication() {
-      const step2Form = this.$el.querySelector('.adoption-form');
-       if (step2Form && step2Form.checkValidity()) {
-        console.log('Full Application Submitted:', this.application);
-        if (this.homePhotoFile) {
-            console.log('Home Photo File:', this.homePhotoFile.name, this.homePhotoFile.type);
+      const step2Form = this.$el.querySelector('.adoption-form'); // Ensure this selector targets the form for step 2
+      if (step2Form && step2Form.checkValidity()) {
+        // Add explicit check for consent fields if not covered by form.checkValidity()
+        if (!this.application.certifyTrueInfo || !this.application.authorizeVerification || !this.application.signature) {
+            alert('Please complete all acknowledgements and provide your signature in Step 2.');
+            return;
         }
-        if (this.idPhotoFile) {
-            console.log('ID Photo File:', this.idPhotoFile.name, this.idPhotoFile.type);
+        
+        // Additional validation for guardian signature when user is under 18
+        if (!this.application.ageOver18 && !this.application.guardianSignature) {
+          alert("Please provide guardian's signature to complete the application.");
+          return;
+        }
+        
+        // Additional validation for guardian ID photo when user is under 18
+        if (!this.application.ageOver18 && !this.guardianIdPhotoFile) {
+          alert("Please upload guardian's valid ID to complete the application.");
+          return;
+        }
+        
+        // Make sure required files are uploaded
+        if (!this.homePhotoFile) {
+          alert("Please upload a photo of your home or pet area.");
+          return;
+        }
+        
+        if (!this.idPhotoFile) {
+          alert("Please upload a copy of your valid ID.");
+          return;
         }
 
-        alert('Application submitted successfully! Please complete the questionnaire below.');
-        this.closeApplicationForm();
-        this.showQuestionnaire = true;
+        console.log('Full Application Submitted:', this.application);
+        if (this.homePhotoFile) {
+          console.log('Home Photo File:', this.homePhotoFile.name, this.homePhotoFile.type);
+        }
+        if (this.idPhotoFile) {
+          console.log('ID Photo File:', this.idPhotoFile.name, this.idPhotoFile.type);
+        }
+        if (this.guardianIdPhotoFile) {
+          console.log('Guardian ID Photo File:', this.guardianIdPhotoFile.name, this.guardianIdPhotoFile.type);
+        }
+        // TODO: Send data to a server (e.g., using FormData and fetch/axios)
+
+        alert('Application submitted successfully!');
+        this.closeApplicationForm(); // Also removes 'no-scroll' from body
       } else {
-         step2Form.reportValidity();
-         alert('Please fill out all required fields in Step 2 and complete acknowledgements.');
+        if (step2Form) step2Form.reportValidity();
+        alert('Please fill out all required fields in Step 2 and complete acknowledgements.');
       }
-    },
-    selectAnswer(questionIndex, optionIndex) {
-      this.answers[questionIndex] = optionIndex;
-    },
-    submitQuestionnaire() {
-      console.log('Questionnaire submitted:', this.answers);
-      const allAnswered = this.answers.length === this.questions.length && this.answers.every(ans => ans !== undefined && ans !== null);
-      if (!allAnswered) {
-        alert('Please answer all questionnaire questions.');
-        return;
-      }
-      alert('Thank you for completing the questionnaire!');
-      this.answers = Array(this.questions.length).fill(null); // Reset answers
-      this.showQuestionnaire = false;
     }
   }
 }
 </script>
 
-<style scoped>
-/* NAV STYLES (mostly unchanged) */
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 .nav-container {
   display: flex;
   justify-content: space-between;
@@ -865,22 +810,19 @@ export default {
 }
 
 .dropdown-content.desktop {
-  display: none;
   position: absolute;
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
   margin-top: 0.75rem;
   background-color: white;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s ease;
+  z-index: 1001;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
 }
 
-.dropdown:hover .dropdown-content.desktop {
-  display: block;
-  opacity: 1;
-  pointer-events: auto;
+.dropdown-content.desktop-active {
+  animation: dropdownIn 0.3s ease-out forwards;
 }
 
 .dropdown-content a {
@@ -922,6 +864,10 @@ export default {
   gap: 1.5rem;
 }
 
+.user-dropdown {
+  position: relative;
+}
+
 .user-icon {
   color: white;
   cursor: pointer;
@@ -938,6 +884,145 @@ export default {
 .user-icon:hover {
   transform: scale(1.1);
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+.user-dropdown-content {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background-color: white;
+  min-width: 220px;
+  max-width: 90vw;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 1001;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dropdown-header span {
+  font-weight: 600;
+  color: #333;
+}
+
+.close-dropdown-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.close-dropdown-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+.user-dropdown-content a {
+  color: #333;
+  padding: 0.9rem 1.2rem;
+  text-decoration: none;
+  display: block;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.user-dropdown-content a:last-child {
+  border-bottom: none;
+}
+
+.user-dropdown-content a:hover {
+  background-color: #f8f8f8;
+  padding-left: 1.5rem;
+}
+
+.user-dropdown-content.mobile-dropdown {
+  position: absolute;
+  width: auto;
+  min-width: 220px;
+  max-width: 90vw;
+}
+
+.dropdown-animation-enter-active {
+  animation: dropdownIn 0.3s ease-out forwards;
+}
+
+.dropdown-animation-leave-active {
+  animation: dropdownOut 0.3s ease-in forwards;
+}
+
+@keyframes dropdownIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdownOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.resources-dropdown-enter-active {
+  animation: dropdownResourcesIn 0.3s ease-out forwards;
+}
+
+.resources-dropdown-leave-active {
+  animation: dropdownResourcesOut 0.3s ease-in forwards;
+}
+
+@keyframes dropdownResourcesIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) translateX(-50%);
+  }
+  60% {
+    transform: translateY(5px) translateX(-50%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+}
+
+@keyframes dropdownResourcesOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) translateX(-50%);
+  }
 }
 
 .mobile-menu-toggle {
@@ -1000,19 +1085,19 @@ export default {
   .nav-container {
     padding: 0.75rem 1.25rem;
   }
-
+  
   .logo-text {
     font-size: 1.5rem;
   }
-
+  
   .mobile-menu-toggle {
     display: flex;
   }
-
+  
   .nav-links-container {
     position: static;
   }
-
+  
   .nav-links {
     position: fixed;
     top: 0;
@@ -1028,21 +1113,30 @@ export default {
     z-index: 5;
     transition: all 0.3s ease;
     overflow-y: auto;
-    padding-top: 5rem; /* Ensure content below nav bar */
-    width: 100vw; /* Full width */
-    margin: 0; /* Reset margin */
+    padding-top: 5rem;
+    width: 100vw;
+    margin: 0;
   }
-
+  
   .mobile-active {
     animation: slideIn 0.3s forwards;
   }
-
+  
   .nav-link {
     font-size: 1.3rem;
   }
-
+  
   .nav-link:after {
     height: 3px;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 
@@ -1050,19 +1144,57 @@ export default {
   .nav-container {
     padding: 0.75rem 1rem;
   }
-
+  
   .logo-text {
     font-size: 1.3rem;
   }
-
+  
   .user-icon {
     width: 32px;
     height: 32px;
   }
-
+  
   .nav-links {
     padding: 1.5rem;
     gap: 1.25rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .nav-container {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .logo-text {
+    font-size: 1.1rem;
+  }
+  
+  .right-section {
+    gap: 0.75rem;
+  }
+  
+  .user-dropdown-content {
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 245px) {
+  .logo-text {
+    font-size: 0.9rem;
+  }
+  
+  .user-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .nav-container {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .user-dropdown-content {
+    min-width: 180px;
+    right: -20px; 
   }
 }
 
@@ -1072,55 +1204,60 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
-  background-color: #f8f9fa; /* Light gray background */
+  padding: 2rem 1rem; /* Reduced horizontal padding for small screens */
+  background-color: #f8f9fa; 
 }
 
 .pet-card {
-  display: flex; /* For side-by-side image and info */
-  max-width: 900px; /* Max card width */
+  display: flex;
+  flex-direction: row; /* Default to row layout */
+  max-width: 900px; 
   width: 100%;
   background-color: white;
   border-radius: 12px;
-  overflow: hidden; /* To respect border radius for image */
+  overflow: hidden; 
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease;
 }
 
 .pet-card:hover {
-  transform: translateY(-5px); /* Slight lift on hover */
+  transform: translateY(-5px);
 }
 
 .pet-image-container {
-  flex: 1; /* Takes up proportional space */
-  min-width: 300px; /* Minimum width for image area */
-  max-width: 400px; /* Maximum width for image area */
+  width: 100%;
+  height: 300px;
+  min-width: 200px;
+  max-width: 400px;
   position: relative;
   overflow: hidden;
+  background: #eee;
+  border-radius: 12px 0 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pet-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Cover the area, might crop */
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   display: block;
-  transition: transform 0.3s ease;
-}
-
-.pet-card:hover .pet-image {
-  transform: scale(1.05); /* Zoom image slightly on card hover */
+  margin: auto;
 }
 
 .pet-info {
-  flex: 1.5; /* Takes more space than image */
+  flex: 1.5; 
   padding: 2rem;
   display: flex;
   flex-direction: column;
 }
 
 .pet-name {
-  color: #546e7a; /* Darker text for name */
-  font-size: 2.2rem; /* Large name */
+  color: #546e7a; 
+  font-size: 2.2rem;
   margin-top: 0;
   margin-bottom: 1.5rem;
   font-weight: 700;
@@ -1128,27 +1265,27 @@ export default {
 
 .pet-details {
   display: flex;
-  flex-wrap: wrap; /* Allow details to wrap */
-  gap: 1rem; /* Space between detail items */
+  flex-wrap: wrap; 
+  gap: 1rem; 
   margin-bottom: 1.5rem;
 }
 
 .detail-item {
-  background-color: #f1f8fe; /* Light blue background for tags */
+  background-color: #f1f8fe; 
   padding: 0.5rem 1rem;
-  border-radius: 20px; /* Pill shape */
+  border-radius: 20px; 
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .detail-label {
-  color: #607d8b; /* Muted label color */
+  color: #607d8b; 
   font-weight: 600;
 }
 
 .detail-value {
-  color: #455a64; /* Darker value color */
+  color: #455a64; 
 }
 
 .pet-description {
@@ -1156,16 +1293,16 @@ export default {
   line-height: 1.6;
   font-size: 1.1rem;
   margin-bottom: 2rem;
-  flex-grow: 1; /* Allows description to take available space */
+  flex-grow: 1; 
 }
 
 .adoption-button {
-  align-self: flex-start; /* Align button to the left */
-  background-color: #F9A826; /* Theme color */
+  align-self: flex-start; 
+  background-color: #F9A826;
   color: white;
   border: none;
   padding: 0.8rem 1.5rem;
-  border-radius: 30px; /* Rounded button */
+  border-radius: 30px;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
@@ -1174,7 +1311,7 @@ export default {
 }
 
 .adoption-button:hover {
-  background-color: #e89921; /* Darken on hover */
+  background-color: #e89921; 
   transform: translateY(-2px);
 }
 
@@ -1203,7 +1340,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px; /* Gap between step and line */
+  gap: 10px;
 }
 
 .step {
@@ -1211,8 +1348,8 @@ export default {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 1rem; /* Spacing around each step content */
-  width: 120px; /* Fixed width for each step container */
+  padding: 1rem;
+  width: 120px; 
 }
 
 .circle {
@@ -1226,7 +1363,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.75rem; /* Space between circle and text */
+  margin-bottom: 0.75rem; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -1237,30 +1374,17 @@ export default {
 }
 
 .line {
-  width: 50px; /* Length of the line */
+  width: 50px; 
   height: 3px;
   background-color: #F9A826;
-  position: relative; /* For potential future animations or pseudo-elements */
+  position: relative; 
 }
 
 .step p {
   color: #607d8b;
   font-weight: 600;
-  margin-top: 0.5rem; /* Ensure consistency if margin-bottom on circle changes */
+  margin-top: 0.5rem;
 }
-
-
-/* Make steps stack vertically on smaller screens */
-@media (max-width: 600px) {
-  .steps {
-    flex-direction: column; /* Stack steps vertically */
-  }
-  .line {
-    width: 3px; /* Line becomes vertical */
-    height: 30px; /* Height of the vertical line */
-  }
-}
-
 
 /* Application Form Styles */
 .application-form-section {
@@ -1300,10 +1424,10 @@ export default {
   background: white;
   border-radius: 10px;
   width: 90%;
-  max-width: 800px; /* Max width for larger screens */
-  max-height: 90vh; /* Max height to prevent overflow */
-  overflow-y: auto; /* Scroll if content exceeds max height */
-  padding: 25px 35px; /* More padding */
+  max-width: 800px; 
+  max-height: 90vh; 
+  overflow-y: auto; 
+  padding: 25px 35px; 
   position: relative;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   transform: translateY(20px);
@@ -1320,25 +1444,25 @@ export default {
   right: 15px;
   background: none;
   border: none;
-  font-size: 28px; /* Larger close button */
+  font-size: 28px;
   cursor: pointer;
-  color: #aaa; /* Lighter color */
+  color: #aaa; 
   transition: color 0.3s ease;
 }
 
 .close-form-btn:hover {
-  color: #F9A826; /* Theme color on hover */
+  color: #F9A826;
 }
 
 .form-title {
-  font-size: 26px; /* Adjusted title size */
-  color: #F9A826; /* Theme color for title */
+  font-size: 26px; 
+  color: #F9A826; 
   margin-bottom: 8px;
   text-align: center;
 }
 
 .form-description {
-  color: #777; /* Softer description color */
+  color: #777; 
   text-align: center;
   margin-bottom: 25px;
   line-height: 1.5;
@@ -1358,24 +1482,26 @@ export default {
 
 
 .form-group {
-  margin-bottom: 18px; /* Slightly reduced margin */
+  margin-bottom: 18px; 
 }
 
 .input-row {
   display: flex;
-  gap: 18px; /* Consistent gap */
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  gap: 18px;
   margin-bottom: 18px;
 }
 
 .input-row .form-group {
   flex: 1;
-  margin-bottom: 0; /* Remove bottom margin for items in a row */
+  min-width: 250px; /* Minimum width before wrapping */
+  margin-bottom: 0; 
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px; /* Spacing between label and input */
-  font-weight: 600; /* Bolder labels */
+  margin-bottom: 8px; 
+  font-weight: 600;
   color: #555;
   font-size: 0.95rem;
 }
@@ -1388,7 +1514,7 @@ export default {
 }
 .form-group label.checkbox-label input[type="checkbox"] {
     width: auto;
-    margin-right: 5px; /* Accent color for checkboxes */
+    margin-right: 5px;
     accent-color: #F9A826;
 
 }
@@ -1399,9 +1525,9 @@ export default {
 .form-group textarea,
 .form-group select {
   width: 100%;
-  padding: 12px 15px; /* Comfortable padding */
-  border: 1px solid #ccc; /* Softer border */
-  border-radius: 6px; /* Slightly more rounded */
+  padding: 12px 15px; 
+  border: 1px solid #ccc; 
+  border-radius: 6px; 
   font-size: 1rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   background-color: #fdfdfd;
@@ -1410,7 +1536,7 @@ export default {
     margin-right: 5px;
     accent-color: #F9A826;
 }
-.form-group div > label { /* For radio button group labels */
+.form-group div > label { 
     margin-right: 15px;
     font-weight: normal;
     color: #666;
@@ -1425,7 +1551,7 @@ export default {
 .form-group textarea:focus,
 .form-group select:focus {
   border-color: #F9A826;
-  box-shadow: 0 0 0 3px rgba(249, 168, 38, 0.25); /* Softer focus ring */
+  box-shadow: 0 0 0 3px rgba(249, 168, 38, 0.25); 
   outline: none;
 }
 .mt-small {
@@ -1433,11 +1559,12 @@ export default {
 }
 
 .form-actions {
-  margin-top: 30px; /* More space before actions */
-  text-align: right; /* Align buttons to the right */
+  margin-top: 30px; 
+  text-align: right; 
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+  flex-wrap: wrap; /* Allow buttons to wrap on very small screens */
 }
 
 .submit-btn {
@@ -1446,7 +1573,7 @@ export default {
   border: none;
   padding: 12px 25px;
   border-radius: 6px;
-  font-size: 1rem; /* Consistent font size */
+  font-size: 1rem; 
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -1454,7 +1581,7 @@ export default {
 }
 
 .submit-btn:hover {
-  background-color: #e89921; /* Darken on hover */
+  background-color: #e89921;
   transform: translateY(-1px);
 }
 .submit-btn.secondary-btn {
@@ -1464,102 +1591,193 @@ export default {
     background-color: #666;
 }
 
-
-/* Questionnaire Styles */
-.questionnaire-section {
-  padding: 2rem 1.5rem; /* Responsive padding */
-  background-color: #f0f4f8; /* Lighter, distinct background */
-  margin-top: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-.questionnaire-section .form-title {
-    color: #F9A826;
-    margin-bottom: 1.5rem;
-}
-
-.question {
-  margin-bottom: 2rem; /* More space between questions */
-  padding: 1.5rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-}
-.question p:first-child {
-    font-weight: 600;
-    color: #334e68; /* Dark blue-gray for question text */
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-}
-
-.options {
-  display: flex;
-  flex-direction: column; /* Stack options vertically */
-  gap: 0.75rem; /* Space between option buttons */
-}
-
-.option-button {
-  background-color: #e1eaf2; /* Lighter, neutral base for options */
-  color: #334e68; /* Dark text for readability */
-  border: 1px solid #cbd6e0; /* Subtle border */
-  padding: 0.75rem 1.25rem; /* Generous padding */
-  border-radius: 6px;
-  font-weight: 500; /* Slightly less bold */
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: left; /* Align text to left */
-  font-size: 0.95rem;
-}
-
-.option-button:hover {
-  background-color: #F9A826; /* Theme color highlight */
-  border-color: #F9A826;
-  color: white;
-  transform: translateX(3px); /* Slight shift on hover */
-}
-
-.option-button.selected {
-  background-color: #F9A826; /* Clear selected state */
-  color: white;
-  border-color: #e89921; /* Darker border for selected */
-  font-weight: 600;
-}
-
-.selected-answer {
-  margin-top: 1rem;
-  font-weight: 500;
-  color: #546e7a;
-  font-size: 0.9rem;
-  padding-left: 0.5rem;
-  border-left: 3px solid #F9A826;
-}
-.questionnaire-submit-btn {
-    display: block;
-    margin: 2rem auto 0;
+/* New responsive styles for 601px to 1000px */
+@media (min-width: 600px) and (max-width: 1000px) {
+  .pet-card {
+    flex-direction: column; /* Stack elements vertically in this range */
+  }
+  
+  .pet-image-container {
+    min-width: 100%;
+    max-width: 100%;
+    height: 300px; /* Slightly taller than mobile */
+  }
+  
+  .pet-info {
+    padding: 1.75rem;
+  }
+  
+  .pet-name {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .adoption-button {
+    align-self: center;
     padding: 0.8rem 2rem;
+    width: 80%;
+    text-align: center;
+  }
+  
+  .input-row {
+    flex-direction: column;
+  }
+  
+  .input-row .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .steps {
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .line {
+    width: 30px; /* Shorter connecting lines */
+  }
+  
+  .form-content {
+    width: 85%;
+    padding: 22px 30px;
+  }
 }
 
+/* New responsive styles for pet card */
 @media (max-width: 768px) {
-    .form-content {
-        padding: 20px;
-    }
-    .adoption-form h3 {
-        font-size: 1.3rem;
-    }
-    .input-row {
-        flex-direction: column;
-        gap: 0;
-    }
-    .input-row .form-group {
-        margin-bottom: 18px;
-    }
-    .questionnaire-section {
-        padding: 1.5rem 1rem;
-    }
-    .question {
-        padding: 1rem;
-    }
+  .pet-profile-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .pet-card {
+    flex-direction: column; /* Stack image and content vertically */
+  }
+  
+  .pet-image-container {
+    min-width: 100%;
+    max-width: 100%;
+    height: 250px; /* Fixed height for the image on mobile */
+  }
+  
+  .pet-info {
+    padding: 1.5rem;
+  }
+  
+  .pet-name {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .pet-details {
+    margin-bottom: 1rem;
+  }
+  
+  .form-content {
+    padding: 20px 25px;
+  }
 }
 
+@media (max-width: 600px) {
+  .steps {
+    flex-direction: column; 
+  }
+  
+  .line {
+    width: 3px; 
+    height: 30px;
+  }
+  
+  .pet-profile-container {
+    padding: 1rem 0.75rem;
+  }
+  
+  .pet-name {
+    font-size: 1.6rem;
+  }
+  
+  .pet-description {
+    font-size: 1rem;
+  }
+  
+  .adoption-button {
+    width: 100%; /* Full width button on small screens */
+    padding: 0.75rem 1rem;
+    text-align: center;
+  }
+  
+  .form-title {
+    font-size: 22px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .submit-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pet-profile-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .pet-info {
+    padding: 1.25rem 1rem;
+  }
+  
+  .pet-name {
+    font-size: 1.5rem;
+  }
+  
+  .detail-item {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .form-content {
+    padding: 15px 20px;
+    width: 95%;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .pet-name {
+    font-size: 1.3rem;
+  }
+  
+  .pet-details {
+    gap: 0.5rem;
+  }
+  
+  .detail-item {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .pet-description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .form-group label {
+    font-size: 0.85rem;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="tel"],
+  .form-group input[type="date"],
+  .form-group textarea,
+  .form-group select {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+}
 </style>

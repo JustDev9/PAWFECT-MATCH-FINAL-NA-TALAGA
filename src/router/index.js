@@ -2,19 +2,20 @@
 
 import { createRouter, createWebHistory } from 'vue-router';
 import Admin from '../views/Admin.vue';
-import Donations from '../views/donations.vue';
+import Contact from '../views/contact.vue';
+import donations from '../views/donations.vue';
 import HomeVue from '../views/home.vue';
 import Login from '../views/login.vue';
-import LostFound from '../views/lost&found.vue';
+import lostFound from '../views/lost&found.vue';
 import News from '../views/News.vue';
 import PetProfile from '../views/pet-profile.vue';
 import PetProfiles from '../views/pet-profiles.vue';
 import Signup from '../views/signup.vue';
-import Status from '../views/status.vue';
-import Stories from '../views/stories.vue';
-import Training from '../views/training.vue';
-
+import stories from '../views/stories.vue';
+import training from '../views/training.vue';
+import status from '../views/status.vue';
 const routes = [
+
   {
     path: '/home',
     name: 'home',
@@ -25,21 +26,27 @@ const routes = [
     name: 'petProfile',
     component: PetProfile,
   },
-
   {
-    path: '/lost-found',
-    name: 'lostFound',
-    component: LostFound,
+    path: '/contact',
+    name: 'contact',
+    component: Contact,
   },
+  {
+    path: '/lost&found',
+    name: 'lost&found',
+    component: lostFound,
+  },
+
   {
     path: '/news',
     name: 'news',
     component: News,
   },
+
   {
     path: '/donations',
     name: 'donations',
-    component: Donations,
+    component: donations,
   },
   {
     path: '/login',
@@ -51,6 +58,8 @@ const routes = [
     name: 'signup',
     component: Signup,
   },
+
+
   {
     path: '/admin',
     name: 'admin',
@@ -61,6 +70,7 @@ const routes = [
     name: 'petProfiles',
     component: PetProfiles,
   },
+
   {
     path: '/',
     redirect: '/home',
@@ -68,23 +78,25 @@ const routes = [
   {
     path: '/training',
     name: 'training',
-    component: Training,
+    component: training,
   },
   {
     path: '/stories',
     name: 'stories',
-    component: Stories,
+    component: stories,
   },
   {
     path: '/status',
     name: 'status',
-    component: Status,
-  },
+    component: status,
+  }
+
+
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+history: createWebHistory(import.meta.env.BASE_URL),
+routes,
 })
 
 export default router
